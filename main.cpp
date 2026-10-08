@@ -15,10 +15,17 @@ void add_item(Item *item_list, double price, char *sku, char *category, char *na
     item_list[index].name = new char[std::strlen(name) + 1];
     std::strcpy(item_list[index].name, name);
 }
-
+// step 2.7, free memory function
 void free_items(Item *item_list, int size)
 {
+    for (int i = 0; i < size; i++)
+    {
+        delete[] item_list[i].sku;
+        delete[] item_list[i].category;
+        delete[] item_list[i].name;
+    }
 
+    delete[] item_list;
 }
 // step 2.6, average price function
 double average_price(Item *item_list, int size)
@@ -47,7 +54,7 @@ for (int i = 0; i < size; i++)
     }
 }
 
-int main()
+int main(int argc, char *argv[]) // step 4.1
 {
     Item *item_list = new Item[5];
 
@@ -71,13 +78,35 @@ int main()
     char sku5[] = "5";
     char category5[] = "dairy";
     
-    add_item(item_list, 5, sku1, category1, name1, 0); // 2.4, prints items in order 
+    add_item(item_list, 5, sku1, category1, name1, 0); // 2.4, adds items to array in function 
     add_item(item_list, 5, sku2, category2, name2, 1);
     add_item(item_list, 5, sku3, category3, name3, 2);
     add_item(item_list, 5, sku4, category4, name4, 3);
     add_item(item_list, 5, sku5, category5, name5, 4);
     print_items(item_list, 5); // 2.5, prints items 
     average_price(item_list, 5); // 2.6, prints average price 
+
+    // step 4 
+    char *sku = argv[1]; // step 4.3
+    int ct = 0; 
+    while (ct < 5 && std::strcmp(item_list[ct].sku, sku) != 0) // step 4.4
+    {
+        ct++;
+    }
+
+    if (ct < 5)
+    {
+        std::cout << "item name = " << item_list[ct].name << "\n";
+        std::cout << "item sku = " << item_list[ct].sku << "\n";
+        std::cout << "item category = " << item_list[ct].category << "\n";
+        std::cout << "item price = " << item_list[ct].price << "\n";
+    }
+    else
+    {
+        std::cout << "item not found\n";
+    }
+
+    free_items(item_list, 5); // 2.7, free allocated memory 
     
     return 0;
 }
