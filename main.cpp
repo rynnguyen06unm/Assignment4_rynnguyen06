@@ -2,6 +2,7 @@
 #include <cstring>
 #include "item.h"
 
+// step 2.4, add item function
 void add_item(Item *item_list, double price, char *sku, char *category, char *name, int index)
 {
     item_list[index].price = price;
@@ -14,14 +15,27 @@ void add_item(Item *item_list, double price, char *sku, char *category, char *na
     item_list[index].name = new char[std::strlen(name) + 1];
     std::strcpy(item_list[index].name, name);
 }
+
 void free_items(Item *item_list, int size)
 {
 
 }
+// step 2.6, average price function
 double average_price(Item *item_list, int size)
 {
+    double total = 0;
+    for (int i = 0; i < size; i++)
+    {
+        total = total + item_list[i].price;
+    }
 
+    double average = total / size;
+
+    std::cout << "average price of items = " << average << "\n";
+
+    return average;
 }
+// step 2.5, print items function
 void print_items(Item *item_list, int size)
 {
 for (int i = 0; i < size; i++)
@@ -56,6 +70,14 @@ int main()
     char name5[] = "pink milk";
     char sku5[] = "5";
     char category5[] = "dairy";
+    
+    add_item(item_list, 5, sku1, category1, name1, 0); // 2.4, prints items in order 
+    add_item(item_list, 5, sku2, category2, name2, 1);
+    add_item(item_list, 5, sku3, category3, name3, 2);
+    add_item(item_list, 5, sku4, category4, name4, 3);
+    add_item(item_list, 5, sku5, category5, name5, 4);
+    print_items(item_list, 5); // 2.5, prints items 
+    average_price(item_list, 5); // 2.6, prints average price 
     
     return 0;
 }
